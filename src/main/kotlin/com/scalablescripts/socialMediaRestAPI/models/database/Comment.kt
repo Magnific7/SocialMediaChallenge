@@ -9,6 +9,9 @@ data class Comment(
     @SequenceGenerator(name = "post_id_seq", allocationSize = 1)
     var id: Long = 0,
 
+    @Column
+    var comment: String = "",
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     var commenter: User,
