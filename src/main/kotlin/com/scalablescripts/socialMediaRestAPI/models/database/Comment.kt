@@ -1,21 +1,28 @@
 package com.scalablescripts.socialMediaRestAPI.models.database
 import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
+import java.util.*
 
 @Entity
 @Table(name = "comment")
 data class Comment(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_id_seq")
-    @SequenceGenerator(name = "post_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_id_seq")
+    @SequenceGenerator(name = "comment_id_seq", allocationSize = 1)
     var id: Long = 0,
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    var commenter: User,
+    @Column
+    var comment: String = "",
 
     @ManyToOne
-    @JoinColumn(name = "posts_id")
+    var commenter: User = User(),
+
+    @ManyToOne
     var post: Post,
 
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", updatable = false)
+    var createdAt: Date? = null,
 )
 

@@ -28,7 +28,7 @@ class SecurityConfig (
             .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
             .requestMatchers("/api/**").authenticated()
-            .anyRequest().permitAll() // In case you have a frontend
+            .anyRequest().permitAll()
 
         // Configure JWT
         http.oauth2ResourceServer().jwt()
