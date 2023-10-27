@@ -1,14 +1,14 @@
-#
-# Build stage
-#
-FROM maven:3.8.2-jdk-8 AS build
-COPY . .
-RUN mvn clean package -DskipTests
+# Use the official OpenJDK base image
+FROM openjdk:17-jre-slim
 
-#
-# Package stage
-#
-FROM tomcat:8.5-jre8
-COPY --from=build /target/socialMediaRestApi-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
+# Set the working directory inside the container
+WORKDIR /socialMediaRestAPI
+
+# Copy the Spring Boot JAR file into the container
+COPY target/socialMediaRestAPI.jar /socialMediaRestAPI/socialMediaRestAPI.jar
+
+# Expose the port your Spring Boot application will run on
+EXPOSE 9090
+
+# Command to run the Spring Boot application
+CMD ["java", "-jar", "socialMediaRestAPI.jar"]

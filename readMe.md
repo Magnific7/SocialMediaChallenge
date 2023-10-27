@@ -15,7 +15,7 @@
 
 Before you begin, ensure you have met the following requirements:
 
-- Java Development Kit (JDK) 11 or higher.
+- Java Development Kit (JDK) 17.
 - Apache Maven for building and managing the project.
 - PostgreSQL database for storing application data.
 - Code editor or Integrated Development Environment (IDE) of your choice.

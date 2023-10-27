@@ -2,6 +2,7 @@ package com.scalablescripts.socialMediaRestAPI.controllers
 
 import com.scalablescripts.socialMediaRestAPI.configs.toUser
 import com.scalablescripts.socialMediaRestAPI.dtos.LikeDto
+import com.scalablescripts.socialMediaRestAPI.models.database.Comment
 import com.scalablescripts.socialMediaRestAPI.models.database.Like
 import com.scalablescripts.socialMediaRestAPI.models.database.Post
 import com.scalablescripts.socialMediaRestAPI.services.LikeService
@@ -54,6 +55,12 @@ class LikeController(
 
         return likeService.createLike(like)
 
+    }
+
+    @GetMapping
+    fun getCommentsForPost(@PathVariable postId: Long): List<Like> {
+        val post = postService.getPostById(postId)
+        return likeService.getLikeByPost(post)
     }
 
 }
