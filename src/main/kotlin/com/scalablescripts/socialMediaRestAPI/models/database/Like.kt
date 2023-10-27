@@ -4,25 +4,24 @@ import org.hibernate.annotations.CreationTimestamp
 import java.util.*
 
 @Entity
-@Table(name = "posts")
-data class Post(
+@Table(name = "post_like")
+data class Like(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_id_seq")
-    @SequenceGenerator(name = "post_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "like_id_seq")
+    @SequenceGenerator(name = "like_id_seq", allocationSize = 1)
     var id: Long = 0,
 
     @Column
-    var title: String = "",
-
-    @Column
-    var description: String = "",
+    var liked: Boolean = false,
 
     @ManyToOne
-    var author: User,
+    var liker: User = User(),
+
+    @ManyToOne
+    var post: Post,
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", updatable = false)
     var createdAt: Date? = null,
-
-    )
+)

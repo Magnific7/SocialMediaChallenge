@@ -41,8 +41,7 @@ class PostController(private val postService: PostService) {
     @PreAuthorize("isAuthenticated()")
     @PostMapping
     fun createPost(@RequestBody postRequestDto: PostDto, authentication: Authentication): Post {
-        // You should add authentication and authorization logic here to associate the post with the authenticated user
-        // For simplicity, we assume you have a user object available
+
         val author = authentication.toUser()
         val post = Post(
             title = postRequestDto.title ?: "",
