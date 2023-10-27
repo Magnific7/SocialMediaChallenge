@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service
 import com.scalablescripts.socialMediaRestAPI.models.database.Post
 import com.scalablescripts.socialMediaRestAPI.models.database.User
 import com.scalablescripts.socialMediaRestAPI.repositories.PostRepo
+import org.springframework.security.core.Authentication
 
 @Service
 class PostService {
@@ -54,5 +55,11 @@ class PostService {
 
     fun getPostsByAuthor(author: User): List<Post> {
         return postRepo.findByAuthor(author)
+    }
+    fun isPostAuthor(postId: Long, authentication: Authentication): Boolean {
+        val post = getPostById(postId)
+        val author = post.author
+        val authenticatedUser = authentication.principal as User
+        return author == authenticatedUser
     }
 }
