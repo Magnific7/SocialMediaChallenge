@@ -29,13 +29,13 @@ Follow these steps to set up and run the Social Media Rest API.
 1. Clone the repository to your local machine:
 
     ```shell
-    git clone https://github.com/yourusername/social-media-rest-api.git
+    git clone git@github.com:Magnific7/SocialMediaChallenge.git
     ```
 
 2. Change to the project directory:
 
     ```shell
-    cd social-media-rest-api
+    cd SocialMediaChallenge
     ```
 
 3. Build the application using Maven:
