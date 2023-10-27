@@ -56,3 +56,7 @@ To run the application, use the following command:
 
 ```shell
 mvn spring-boot:run
+```
+
+## API Documentation
+Once the application is up and running, you can explore the API endpoints and test them using the Swagger documentation. Access the Swagger documentation by navigating to the following URL in your browser:
