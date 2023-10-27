@@ -42,11 +42,7 @@ class PostService {
     }
 
     fun deletePost(postId: Long) {
-        if (postRepo.existsById(postId)) {
-            postRepo.deleteById(postId)
-        } else {
-            throw ApiException(404, "Post Not Found")
-        }
+        postRepo.deleteById(postId)
     }
 
     fun searchPostsByTitle(title: String): List<Post> {

@@ -12,6 +12,8 @@ interface CommentRepo : CrudRepository<Comment, Long>  {
     // Find comments by post
     fun findByPost(post: Post): List<Comment>
 
+    override fun deleteById(commentId: Long)
+
 }
 
 

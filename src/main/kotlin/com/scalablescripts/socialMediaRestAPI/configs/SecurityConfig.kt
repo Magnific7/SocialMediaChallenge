@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException
@@ -59,4 +61,14 @@ class SecurityConfig (
         source.registerCorsConfiguration("/**", configuration)
         return source
     }
+
+    @Bean
+    fun webSecurityCustomizer(): WebSecurityCustomizer? {
+        return WebSecurityCustomizer { web: WebSecurity ->
+            web.ignoring()
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
+        }
+    }
+
+
 }

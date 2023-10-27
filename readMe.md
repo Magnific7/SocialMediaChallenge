@@ -15,7 +15,7 @@
 
 Before you begin, ensure you have met the following requirements:
 
-- Java Development Kit (JDK) 11 or higher.
+- Java Development Kit (JDK) 17.
 - Apache Maven for building and managing the project.
 - PostgreSQL database for storing application data.
 - Code editor or Integrated Development Environment (IDE) of your choice.
@@ -54,9 +54,35 @@ Follow these steps to set up and run the Social Media Rest API.
 
 To run the application, use the following command:
 
-```shell
-mvn spring-boot:run
-```
+## Running the Application with Docker
+
+To run the Social Media Rest API application using Docker, follow these steps:
+
+1. Build the Docker image by running the following command in the project's root directory:
+
+   ```shell
+   docker build -t social-media-api .
+   ```
+   ```
+   docker compose up
+   ```
+#### 2.Running the IDE (Intellig)
+To run the application in an Integrated Development Environment (IDE) like IntelliJ IDEA, follow these steps:
+
+1.Open the Project: Open your IDE and import the project by selecting the project's root directory.
+
+2.Configure JDK: Ensure that the project is configured to use JDK 17. If not, set it as the project's Java SDK in the IDE.
+
+3.Configure Maven: Set up your IDE to use Apache Maven for building and managing the project.
+
+4.Update Run Configuration: Modify your run configuration to use the Spring Boot application class as the main class for the application.
+
+5.Run the Application: Start the application from your IDE by running the modified run configuration.
+
+### Accessing Swagger Documentation
+After the application is up and running, you can explore the API endpoints and test them using the Swagger documentation. Access the Swagger documentation by opening your web browser and navigating to the following URL:
+
+http://localhost:9090/swagger-ui/index.html
 
 ## API Documentation
 Once the application is up and running, you can explore the API endpoints and test them using the Swagger documentation. Access the Swagger documentation by navigating to the following URL in your browser:

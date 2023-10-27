@@ -1,4 +1,5 @@
 package com.scalablescripts.socialMediaRestAPI.models.database
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import java.util.*
@@ -17,7 +18,9 @@ data class Like(
     @ManyToOne
     var liker: User = User(),
 
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "post_id")
     var post: Post,
 
     @CreationTimestamp

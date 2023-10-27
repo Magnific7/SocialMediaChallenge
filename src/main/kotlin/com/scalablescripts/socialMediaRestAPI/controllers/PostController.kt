@@ -1,5 +1,6 @@
 package com.scalablescripts.socialMediaRestAPI.controllers
 
+import com.scalablescripts.socialMediaRestAPI.configs.SwaggerConfig
 import org.springframework.security.access.prepost.PreAuthorize
 import com.scalablescripts.socialMediaRestAPI.configs.toUser
 import com.scalablescripts.socialMediaRestAPI.dtos.ApiException
@@ -37,7 +38,7 @@ class PostController(private val postService: PostService) {
         ApiResponse(responseCode = "400", description = "Bad request"),
         ApiResponse(responseCode = "401", description = "Unauthorized")
     ])
-    @SecurityRequirement(name = "bearerAuth")
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
     @PreAuthorize("isAuthenticated()")
     @PostMapping
     fun createPost(@RequestBody postRequestDto: PostDto, authentication: Authentication): Post {
@@ -64,6 +65,8 @@ class PostController(private val postService: PostService) {
         ),
         ApiResponse(responseCode = "404", description = "No posts found")
     ])
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
+    @PreAuthorize("isAuthenticated()")
     @GetMapping()
     fun getAllPosts(): List<Post> {
         return postService.getAllPosts()
@@ -82,6 +85,8 @@ class PostController(private val postService: PostService) {
         ),
         ApiResponse(responseCode = "404", description = "Post not found")
     ])
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{postId}")
     fun getPostById(@PathVariable postId: Long): Post {
         return postService.getPostById(postId)
@@ -100,6 +105,8 @@ class PostController(private val postService: PostService) {
         ),
         ApiResponse(responseCode = "404", description = "Post not found")
     ])
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{postId}")
     fun updatePost(@PathVariable postId: Long, @RequestBody updatedPost: PostDto): Post {
 
@@ -112,9 +119,14 @@ class PostController(private val postService: PostService) {
         tags = ["Posts"]
     )
     @ApiResponses(value = [
+
         ApiResponse(responseCode = "204", description = "Post deleted successfully"),
-        ApiResponse(responseCode = "404", description = "Post not found")
+        ApiResponse(responseCode = "404", description = "Post not found"),
+        ApiResponse(responseCode = "401", description = "Unauthorized")
+
     ])
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{postId}")
     fun deletePost(@PathVariable postId: Long) {
         postService.deletePost(postId)

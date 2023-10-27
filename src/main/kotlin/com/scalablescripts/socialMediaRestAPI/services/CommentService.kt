@@ -1,13 +1,12 @@
 package com.scalablescripts.socialMediaRestAPI.services
 
 import com.scalablescripts.socialMediaRestAPI.dtos.ApiException
+import com.scalablescripts.socialMediaRestAPI.dtos.CommentDto
 import com.scalablescripts.socialMediaRestAPI.models.database.Comment
 import com.scalablescripts.socialMediaRestAPI.models.database.Post
 import com.scalablescripts.socialMediaRestAPI.models.database.User
 import com.scalablescripts.socialMediaRestAPI.repositories.CommentRepo
 import com.scalablescripts.socialMediaRestAPI.repositories.PostRepo
-import com.scalablescripts.socialMediaRestAPI.repositories.UserRepo
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
@@ -40,27 +39,21 @@ class CommentService(
             }
     }
 
-    fun updateComment(postId: Long, commentId: Long, updatedComment: String): Comment {
-        // Check if the post with the given postId exists
-        val post = postRepo.findById(postId).orElseThrow { throw ApiException(404, "Post Not Found") }
+    fun updateComment(commentId: Long, updatedComment: CommentDto): Comment {
 
         // Check if the comment with the given commentId exists within the specified post
-        val comment = findById(postId)
+        val comment = findById(commentId)
             ?: throw ApiException(404, "Comment Not Found")
 
         // Update the comment properties as needed
-        comment.comment = updatedComment
+        comment.comment = updatedComment.comment ?: comment.comment
 
         // Save the updated comment
         return commentRepo.save(comment)
     }
 
     fun deleteComment(commentId: Long) {
-        if (commentRepo.existsById(commentId)) {
-            commentRepo.deleteById(commentId)
-        } else {
-            throw ApiException(404, "Comment Not Found")
-        }
+        commentRepo.deleteById(commentId)
     }
 
     fun getCommentsByPost(post: Post): List<Comment> {
@@ -80,5 +73,8 @@ class CommentService(
 
         // Check if the authenticated user is the commenter of the comment
         return authenticatedUser.id == comment.commenter.id
+    }
+    fun getAllComments(): List<Comment> {
+        return commentRepo.findAll().toList()
     }
 }

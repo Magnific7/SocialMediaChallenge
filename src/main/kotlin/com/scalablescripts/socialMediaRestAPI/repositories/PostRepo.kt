@@ -9,5 +9,8 @@ interface PostRepo : CrudRepository<Post, Long> {
 
     // Find posts by title
     fun findByTitleContaining(title: String): List<Post>
+
+    override fun deleteById(postId: Long)
+
 }
 

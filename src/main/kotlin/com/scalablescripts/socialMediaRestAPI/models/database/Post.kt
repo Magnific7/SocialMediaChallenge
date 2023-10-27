@@ -20,6 +20,12 @@ data class Post(
     @ManyToOne
     var author: User,
 
+    @OneToMany(mappedBy = "post")
+    var likes: List<Like> = mutableListOf(),
+
+    @OneToMany(mappedBy = "post")
+    var comments: List<Comment> = mutableListOf(),
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", updatable = false)

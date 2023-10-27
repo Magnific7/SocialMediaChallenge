@@ -16,7 +16,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/posts/{postId}/comments")
+@RequestMapping("/api/comment")
 class CommentController(
     private val commentService: CommentService,
     private val postService: PostService
@@ -36,8 +36,7 @@ class CommentController(
         ApiResponse(responseCode = "401", description = "Unauthorized")
     ])
     @SecurityRequirement(name = "bearerAuth")
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping
+    @PostMapping("/{postId}")
     fun createComment(
         @PathVariable postId: Long,
         @RequestBody commentRequestDto: CommentDto,
@@ -72,17 +71,10 @@ class CommentController(
         ApiResponse(responseCode = "403", description = "Forbidden")
     ])
     @SecurityRequirement(name = "bearerAuth")
-    @PreAuthorize("isCommenter(#commentId, authentication)")
     @PutMapping("/{commentId}")
-    fun updateComment(
-        @PathVariable postId: Long,
-        @PathVariable commentId: Long,
-        @RequestBody updatedComment: CommentDto,
-        authentication: Authentication
-    ): Comment {
-        val updatedCommentText = updatedComment.comment ?: ""
+    fun updateComment(@PathVariable commentId: Long, @RequestBody updatedComment: CommentDto): Comment {
 
-        return commentService.updateComment(postId, commentId, updatedCommentText)
+        return commentService.updateComment(commentId, updatedComment)
     }
 
     @Operation(
@@ -91,24 +83,20 @@ class CommentController(
         tags = ["Comments"]
     )
     @ApiResponses(value = [
-        ApiResponse(responseCode = "204", description = "Comment deleted successfully"),
+        ApiResponse(responseCode = "200", description = "Comment deleted successfully"),
         ApiResponse(responseCode = "404", description = "Comment not found"),
         ApiResponse(responseCode = "403", description = "Forbidden")
     ])
     @SecurityRequirement(name = "bearerAuth")
-    @PreAuthorize("isCommenter(#commentId, authentication)")
     @DeleteMapping("/{commentId}")
     fun deleteComment(
-        @PathVariable postId: Long,
-        @PathVariable commentId: Long,
-        authentication: Authentication
-    ) {
+        @PathVariable commentId: Long) {
         commentService.deleteComment(commentId)
     }
 
     @Operation(
-        summary = "Get comments for a specific post",
-        description = "Retrieve all comments associated with a specific post",
+        summary = "Get all comments",
+        description = "Retrieve all comments ",
         tags = ["Comments"]
     )
     @ApiResponses(value = [
@@ -119,15 +107,14 @@ class CommentController(
         ),
         ApiResponse(responseCode = "404", description = "No comments found for the post")
     ])
-    @GetMapping
-    fun getCommentsForPost(@PathVariable postId: Long): List<Comment> {
-        val post = postService.getPostById(postId)
-        return commentService.getCommentsByPost(post)
+    @GetMapping()
+    fun getAllComments(): List<Comment> {
+        return commentService.getAllComments()
     }
 
     @Operation(
-        summary = "Get a comment by ID within a specific post",
-        description = "Retrieve a single comment by its unique ID within a specific post",
+        summary = "Get a comment by ID ",
+        description = "Retrieve a single comment by its unique ID ",
         tags = ["Comments"]
     )
     @ApiResponses(value = [
